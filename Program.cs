@@ -64,8 +64,10 @@ namespace HdHomeRunEpgXml
             {
                 Console.WriteLine("Processing Device: " + device.DeviceID);
                 //Get the Auth info
+
                 HdConnectDiscover discover = device.GetHdConnectDiscover();
                 //Get the channels
+
                 List<HdConnectChannel> channels = discover.GetHdConnectChannels();
                 //For each channel
                 foreach (HdConnectChannel channel in channels)

@@ -36,8 +36,7 @@ namespace HdHomeRunEpgXml.Util
     {
         public static List<HdConnectChannel> GetHdConnectChannelPrograms(string deviceAuth, string guideNumber, double maxTimeStamp)
         {
-            Uri uri = new Uri("http://my.hdhomerun.com/api/guide.php?DeviceAuth=" + deviceAuth + "&Channel=" + guideNumber + "&Start=" + maxTimeStamp +
-                              "SynopsisLength=160");
+            Uri uri = new Uri("http://my.hdhomerun.com/api/guide.php?DeviceAuth=" + deviceAuth + "&Channel=" + guideNumber + "&Start=" + maxTimeStamp + "&SynopsisLength=160");
             HttpClient hc = new HttpClient();
             byte[] result = hc.GetByteArrayAsync(uri).Result;
             string json = Encoding.UTF8.GetString(result);
