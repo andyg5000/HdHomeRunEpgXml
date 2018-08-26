@@ -41,6 +41,9 @@ namespace HdHomeRunEpgXml
                 Console.WriteLine("Example: ");
                 Console.WriteLine("         HdHomeRunEpgXml " + '"' + "hdEpg.xml" + '"');
                 Console.WriteLine("         HdHomeRunEpgXml " + '"' + "C:\\hdEpg.xml" + '"');
+                Console.WriteLine("");
+                Console.WriteLine("Press enter to exit.");
+                Console.ReadLine();
                 return;
             }
 
