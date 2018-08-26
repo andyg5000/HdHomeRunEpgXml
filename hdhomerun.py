@@ -187,21 +187,21 @@ def GetHdConnectChannelPrograms(device_auth, guideNumber, timeStamp):
 	data = response.data
 	return json.loads(data)	
 
-def InList(l,value):
-	for val in l:
-		if val == value:
-			return True
-		else:
-			return False
+def InList(l , value):
+	if (l.count(value)>0):
+		return True
+	else:
+		return False		
 	return False
 
 
 def main():
+
 	xml = ET.Element("tv")
 	
 	devices = GetHdConnectDevices()
 
-	processedChannelList = []
+	processedChannelList = ["empty","empty"]
 
 	for device in devices: 
 
@@ -213,17 +213,19 @@ def main():
 
 		for chan in channels:
 			
-			ch = chan.get('GuideName') 
+			ch =str( chan.get('GuideName') )
 
-			if (InList(processedChannelList,ch)==False):
+			if (InList( processedChannelList, ch) == False):
 
-				processedChannelList.append(chan.get('GuideName'))
+				print ("Processing Channel: " + ch)
+
+				processedChannelList.append(ch)
 
 				processChannel( xml, chan, deviceAuth)
 
 			else:
 				
-				print ("Skipping Channel " + chan.get('GuideName') + ", already processed.")
+				print ("Skipping Channel " + ch + ", already processed.")
 		
 
 	reformed_xml = minidom.parseString(ET.tostring(xml))
