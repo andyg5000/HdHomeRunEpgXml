@@ -246,7 +246,7 @@ def main():
 				if (InList( processedChannelList, ch) == False):
 					print ("Processing Channel: " + ch)
 					processedChannelList.append(ch)
-					#processChannel( xml, chan, deviceAuth)
+					processChannel( xml, chan, deviceAuth)
 				else:
 					print ("Skipping Channel " + ch + ", already processed.")
 		else:
