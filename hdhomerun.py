@@ -175,6 +175,31 @@ def GetHdConnectDiscover(discover_url):
 	device_auth = json.loads(data)['DeviceAuth']
 	return device_auth
 
+def GetHdConnectDiscoverLineUpUrl(discover_url):
+	http = urllib3.PoolManager()
+	device_auth_response = http.request('GET',discover_url)
+	data = device_auth_response.data
+	LineupURL = json.loads(data)['LineupURL']
+	return LineupURL
+
+	#public class RootObject
+	#{
+	#    public string GuideNumber { get; set; }
+	#    public string GuideName { get; set; }
+	#    public string VideoCodec { get; set; }
+	#    public string AudioCodec { get; set; }
+	#    public int HD { get; set; }
+	#    public string URL { get; set; }
+	#}	
+
+def GetHdConnectLineUp(lineupUrl):
+	http = urllib3.PoolManager()
+	device_auth_response = http.request('GET',lineupUrl)
+	data = device_auth_response.data
+	Lineup = json.loads(data)
+	return Lineup
+
+
 def GetHdConnectChannels(device_auth):
 	http = urllib3.PoolManager()
 	response = http.request('GET',"http://my.hdhomerun.com/api/guide.php?DeviceAuth=%s" % device_auth)
@@ -209,31 +234,27 @@ def main():
 
 		deviceAuth = GetHdConnectDiscover(device["DiscoverURL"])
 
-		channels = GetHdConnectChannels(deviceAuth)
+		lineUpUrl = GetHdConnectDiscoverLineUpUrl(device["DiscoverURL"])
 
-		for chan in channels:
-			
-			ch =str( chan.get('GuideName') )
+		LineUp = GetHdConnectLineUp(lineUpUrl)
 
-			if (InList( processedChannelList, ch) == False):
-
-				print ("Processing Channel: " + ch)
-
-				processedChannelList.append(ch)
-
-				processChannel( xml, chan, deviceAuth)
-
-			else:
-				
-				print ("Skipping Channel " + ch + ", already processed.")
-		
-
+		if ( len(LineUp) > 0):
+			print("Line Up Exists for device")
+			channels = GetHdConnectChannels(deviceAuth)
+			for chan in channels:
+				ch =str( chan.get('GuideName') )
+				if (InList( processedChannelList, ch) == False):
+					print ("Processing Channel: " + ch)
+					processedChannelList.append(ch)
+					#processChannel( xml, chan, deviceAuth)
+				else:
+					print ("Skipping Channel " + ch + ", already processed.")
+		else:
+			print ("No Lineup for device!")
+	
 	reformed_xml = minidom.parseString(ET.tostring(xml))
-
 	xmltv = reformed_xml.toprettyxml(encoding='utf-8')	
-
 	print ("Finished compiling information.  Saving...")	
-
 	saveStringToFile(xmltv, "hdhomerun.xml")
  
 if __name__== "__main__":
