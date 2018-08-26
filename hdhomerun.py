@@ -230,27 +230,31 @@ def main():
 
 	for device in devices: 
 
-		print("Processing Device: " + device["DeviceID"])
+		if 'DeviceID' in device:
 
-		deviceAuth = GetHdConnectDiscover(device["DiscoverURL"])
+			print("Processing Device: " + device["DeviceID"])
 
-		lineUpUrl = GetHdConnectDiscoverLineUpUrl(device["DiscoverURL"])
+			deviceAuth = GetHdConnectDiscover(device["DiscoverURL"])
 
-		LineUp = GetHdConnectLineUp(lineUpUrl)
+			lineUpUrl = GetHdConnectDiscoverLineUpUrl(device["DiscoverURL"])
 
-		if ( len(LineUp) > 0):
-			print("Line Up Exists for device")
-			channels = GetHdConnectChannels(deviceAuth)
-			for chan in channels:
-				ch =str( chan.get('GuideName') )
-				if (InList( processedChannelList, ch) == False):
-					print ("Processing Channel: " + ch)
-					processedChannelList.append(ch)
-					processChannel( xml, chan, deviceAuth)
-				else:
-					print ("Skipping Channel " + ch + ", already processed.")
+			LineUp = GetHdConnectLineUp(lineUpUrl)
+
+			if ( len(LineUp) > 0):
+				print("Line Up Exists for device")
+				channels = GetHdConnectChannels(deviceAuth)
+				for chan in channels:
+					ch =str( chan.get('GuideName') )
+					if (InList( processedChannelList, ch) == False):
+						print ("Processing Channel: " + ch)
+						processedChannelList.append(ch)
+						processChannel( xml, chan, deviceAuth)
+					else:
+						print ("Skipping Channel " + ch + ", already processed.")
+			else:
+				print ("No Lineup for device!")
 		else:
-			print ("No Lineup for device!")
+			print ("Must be storage...")
 	
 	reformed_xml = minidom.parseString(ET.tostring(xml))
 	xmltv = reformed_xml.toprettyxml(encoding='utf-8')	
