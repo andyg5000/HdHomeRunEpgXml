@@ -1,4 +1,9 @@
 # HdHomeRunEpgXml
+
+IMPORTANT: No warrenty is provided with this code.  It is for EDUCATIONAL purposes only.
+
+Compiles on Visual Studio 2017
+
 Generates the EpgXml file for your HdHomeRun devices for Plex
 
 To use, compile and run it by typeing
