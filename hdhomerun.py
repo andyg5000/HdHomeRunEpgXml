@@ -122,7 +122,7 @@ def ProcessProgram(xml, program, guideName):
 					#create a fake episode number for it
 					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
 					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
-	return program['StartTime']
+	return program['EndTime']
 
 	
 def processChannel(xml, data, deviceAuth):
