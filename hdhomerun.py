@@ -65,7 +65,8 @@ def ProcessProgram(xml, program, guideName):
 
 	#Title
 	ET.SubElement(xmlProgram, "title", lang="en").text = program['Title']
-			
+
+		
 	#Sub Title
 	if 'EpisodeTitle' in program:
 		ET.SubElement(xmlProgram, "sub-title", lang="en" ).text = program['EpisodeTitle']
@@ -99,10 +100,14 @@ def ProcessProgram(xml, program, guideName):
 
 	xmlAudio = ET.SubElement(xmlProgram,"audio")
 	ET.SubElement( xmlAudio, "stereo").text = "stereo"
-	ET.SubElement(xmlProgram, "subtitles", type="teletext")				
+	ET.SubElement(xmlProgram, "subtitles", type="teletext")		
+
+
 	if 'Filter' in program:
 		for filter in program['Filter']:
-			ET.SubElement(xmlProgram, "category",lang="en").text = filter
+			filterstringLower = str(filter).lower()
+			ET.SubElement(xmlProgram, "category",lang="en").text = filterstringLower
+
 	return program['StartTime']
 
 	
