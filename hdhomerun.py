@@ -113,6 +113,7 @@ def ProcessProgram(xml, program, guideName):
 			if (filterstringLower == "news" or filterstringLower == "sports"):
 				if ( addedEpisode == False ):
 					WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
+					ET.SubElement(xmlProgram, "category",lang="en").text = "series"
 					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
 					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
 	return program['StartTime']
