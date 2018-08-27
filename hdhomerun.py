@@ -108,12 +108,18 @@ def ProcessProgram(xml, program, guideName):
 
 	if 'Filter' in program:
 		for filter in program['Filter']:
+			#Lowercase the filter... apearenttly Plex is case sensitive
 			filterstringLower = str(filter).lower()
+			#add the filter as a category
 			ET.SubElement(xmlProgram, "category",lang="en").text = filterstringLower
+			#If the filter is news or sports...
 			if (filterstringLower == "news" or filterstringLower == "sports"):
+				#And the show didn't have it's own episode number...
 				if ( addedEpisode == False ):
 					WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
+					#add a category for series
 					ET.SubElement(xmlProgram, "category",lang="en").text = "series"
+					#create a fake episode number for it
 					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
 					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
 	return program['StartTime']
