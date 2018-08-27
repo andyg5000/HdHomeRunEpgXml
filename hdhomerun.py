@@ -79,6 +79,8 @@ def ProcessProgram(xml, program, guideName):
 	#We add a blank entry to satisfy Plex
 	ET.SubElement(xmlProgram,"credits").text = ""
 
+	addedEpisode = False
+
 	if 'EpisodeNumber' in program:
 		#add the friendly display
 		ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = program['EpisodeNumber']
@@ -91,6 +93,7 @@ def ProcessProgram(xml, program, guideName):
 		ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = (season + " . " + episode  + " . 0/1")
 		#set the category flag to series
 		ET.SubElement(xmlProgram, "category", lang="en" ).text = "series"
+		addedEpisode = True
 
 	if 'OriginalAirdate' in program:
 		ET.SubElement(xmlProgram, "previously-shown", start = datetime.fromtimestamp(program['OriginalAirdate']).strftime('%Y%m%d%H%M%S') + " " + timezone_offset)
@@ -107,7 +110,11 @@ def ProcessProgram(xml, program, guideName):
 		for filter in program['Filter']:
 			filterstringLower = str(filter).lower()
 			ET.SubElement(xmlProgram, "category",lang="en").text = filterstringLower
-
+			if (filterstringLower == "news" or filterstringLower == "sports"):
+				if ( addedEpisode == False ):
+					WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
+					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
+					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
 	return program['StartTime']
 
 	
@@ -240,6 +247,19 @@ def ClearLog():
 	if os.path.exists("hdhomerun.xml"):
   		os.remove("hdhomerun.xml")		  
 
+def DateTimeToEpisode():
+	timestamp = time.time()
+	time_now = datetime.fromtimestamp(timestamp)
+	season = time_now.strftime('%Y%m')
+	episode = time_now.strftime('%d%H')
+	return (season + " . " + episode  + " . 0/1")
+
+def DateTimeToEpisodeFriendly():
+	timestamp = time.time()
+	time_now = datetime.fromtimestamp(timestamp)
+	season = time_now.strftime('%Y%m')
+	episode = time_now.strftime('%d%H')
+	return ("S" + season + "E" + episode)
 
 def WriteLog(message):
 	timestamp = time.time()
