@@ -250,15 +250,15 @@ def ClearLog():
 def DateTimeToEpisode():
 	timestamp = time.time()
 	time_now = datetime.fromtimestamp(timestamp)
-	season = time_now.strftime('%Y%m')
-	episode = time_now.strftime('%d%H')
+	season = time_now.strftime('%Y')
+	episode = time_now.strftime('%m%d%H')
 	return (season + " . " + episode  + " . 0/1")
 
 def DateTimeToEpisodeFriendly():
 	timestamp = time.time()
 	time_now = datetime.fromtimestamp(timestamp)
-	season = time_now.strftime('%Y%m')
-	episode = time_now.strftime('%d%H')
+	season = time_now.strftime('%Y')
+	episode = time_now.strftime('%m%d%H')
 	return ("S" + season + "E" + episode)
 
 def WriteLog(message):
