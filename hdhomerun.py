@@ -268,11 +268,13 @@ def WriteLog(message):
 
 	with open ('HdHomerun.log','a') as logfile:
 		logfile.write(str(timeString) + " " + str(message) + "\n")
-	print(str(timeString) + " " + str(message))
+	#print(str(timeString) + " " + str(message))
 
 
 def main():
 	ClearLog()
+	print("Downloading Content...  Please wait.")
+	print("Check the log for progress.")
 	WriteLog("Starting...")
 
 	xml = ET.Element("tv")
