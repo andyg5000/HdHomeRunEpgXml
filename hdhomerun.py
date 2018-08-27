@@ -5,7 +5,7 @@
 # Description:  Downloads the EPG from HdHomeRun's server and converts it to a XMLTV format
 #				So it can be loaded into Plex.
 
-import sys, json, urllib3, datetime, subprocess,time
+import sys, json, urllib3, datetime, subprocess,time,os
 import xml.etree.cElementTree as ET
 from datetime import datetime
 from xml.dom import minidom
@@ -49,7 +49,7 @@ def get_utc_offset_str():
 
 def ProcessProgram(xml, program, guideName):
 
-	print ("Processing Show: " + program['Title'])
+	WriteLog ("Processing Show: " + program['Title'])
 
 	timezone_offset = get_utc_offset_str().replace(":","")
 	#program
@@ -108,7 +108,7 @@ def ProcessProgram(xml, program, guideName):
 	
 def processChannel(xml, data, deviceAuth):
 	
-	print ("Processing Channel: " + data.get('GuideNumber') + " " + data.get('GuideName'))
+	WriteLog ("Processing Channel: " + data.get('GuideNumber') + " " + data.get('GuideName'))
 
 	#channel
 	xmlChannel = ET.SubElement(xml, "channel", id = data.get('GuideName'))
@@ -162,20 +162,25 @@ def saveJsonToFile(data, filename):
 		json.dump(data, outfile, indent=4)
 
 def GetHdConnectDevices():
+	WriteLog("Getting Connected Devices.")
 	http = urllib3.PoolManager()
 	discover_url_response = http.request('GET',"http://my.hdhomerun.com/discover")
 	data = discover_url_response.data
+	WriteLog(data)
 	obj = json.loads(data)
 	return obj
 
 def GetHdConnectDiscover(discover_url):
+	WriteLog("Discovering...")
 	http = urllib3.PoolManager()
 	device_auth_response = http.request('GET',discover_url)
 	data = device_auth_response.data
+	WriteLog(data)
 	device_auth = json.loads(data)['DeviceAuth']
 	return device_auth
 
 def GetHdConnectDiscoverLineUpUrl(discover_url):
+	WriteLog("Getting Lineup Url")
 	http = urllib3.PoolManager()
 	device_auth_response = http.request('GET',discover_url)
 	data = device_auth_response.data
@@ -193,6 +198,7 @@ def GetHdConnectDiscoverLineUpUrl(discover_url):
 	#}	
 
 def GetHdConnectLineUp(lineupUrl):
+	WriteLog("Getting Lineup")
 	http = urllib3.PoolManager()
 	device_auth_response = http.request('GET',lineupUrl)
 	data = device_auth_response.data
@@ -201,15 +207,19 @@ def GetHdConnectLineUp(lineupUrl):
 
 
 def GetHdConnectChannels(device_auth):
+	WriteLog("Getting Channels.")
 	http = urllib3.PoolManager()
 	response = http.request('GET',"http://my.hdhomerun.com/api/guide.php?DeviceAuth=%s" % device_auth)
 	data = response.data
+	WriteLog(data)
 	return json.loads(data)
 
 def GetHdConnectChannelPrograms(device_auth, guideNumber, timeStamp):
+	WriteLog("Getting Extended Programs")
 	http = urllib3.PoolManager()
 	response = http.request('GET',"http://my.hdhomerun.com/api/guide.php?DeviceAuth=" + device_auth +"&Channel=" + guideNumber +"&Start=" + str(timeStamp) + "&SynopsisLength=160")
 	data = response.data
+	WriteLog(data)
 	return json.loads(data)	
 
 def InList(l , value):
@@ -219,8 +229,26 @@ def InList(l , value):
 		return False		
 	return False
 
+def ClearLog():
+	if os.path.exists("HdHomerun.log"):
+  		os.remove("HdHomerun.log")
+	if os.path.exists("hdhomerun.xml"):
+  		os.remove("hdhomerun.xml")		  
+
+
+def WriteLog(message):
+	timestamp = time.time()
+	time_now = datetime.fromtimestamp(timestamp)
+	timeString = time_now.strftime('%Y%m%d%H%M%S')
+
+	with open ('HdHomerun.log','a') as logfile:
+		logfile.write(str(timeString) + " " + str(message) + "\n")
+	print(str(timeString) + " " + str(message))
+
 
 def main():
+	ClearLog()
+	WriteLog("Starting...")
 
 	xml = ET.Element("tv")
 	
@@ -232,7 +260,7 @@ def main():
 
 		if 'DeviceID' in device:
 
-			print("Processing Device: " + device["DeviceID"])
+			WriteLog("Processing Device: " + device["DeviceID"])
 
 			deviceAuth = GetHdConnectDiscover(device["DiscoverURL"])
 
@@ -241,25 +269,26 @@ def main():
 			LineUp = GetHdConnectLineUp(lineUpUrl)
 
 			if ( len(LineUp) > 0):
-				print("Line Up Exists for device")
+				WriteLog("Line Up Exists for device")
 				channels = GetHdConnectChannels(deviceAuth)
 				for chan in channels:
 					ch =str( chan.get('GuideName') )
 					if (InList( processedChannelList, ch) == False):
-						print ("Processing Channel: " + ch)
+						WriteLog ("Processing Channel: " + ch)
 						processedChannelList.append(ch)
-						processChannel( xml, chan, deviceAuth)
+						#processChannel( xml, chan, deviceAuth)
 					else:
-						print ("Skipping Channel " + ch + ", already processed.")
+						WriteLog ("Skipping Channel " + ch + ", already processed.")
 			else:
-				print ("No Lineup for device!")
+				WriteLog ("No Lineup for device!")
 		else:
-			print ("Must be storage...")
+			WriteLog ("Must be storage...")
 	
 	reformed_xml = minidom.parseString(ET.tostring(xml))
 	xmltv = reformed_xml.toprettyxml(encoding='utf-8')	
-	print ("Finished compiling information.  Saving...")	
+	WriteLog ("Finished compiling information.  Saving...")	
 	saveStringToFile(xmltv, "hdhomerun.xml")
+	WriteLog ("Finished.")
  
 if __name__== "__main__":
   main()
