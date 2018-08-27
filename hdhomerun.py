@@ -276,7 +276,7 @@ def main():
 					if (InList( processedChannelList, ch) == False):
 						WriteLog ("Processing Channel: " + ch)
 						processedChannelList.append(ch)
-						#processChannel( xml, chan, deviceAuth)
+						processChannel( xml, chan, deviceAuth)
 					else:
 						WriteLog ("Skipping Channel " + ch + ", already processed.")
 			else:
