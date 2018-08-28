@@ -124,7 +124,7 @@ namespace HdHomeRunEpgXml.Util
             {
                 //Add when it was previously shown
                 var prevShown = doc.CreateElement(string.Empty, "previously-shown", string.Empty);
-                prevShown.SetAttribute("start", Time.UnixTimeStampToDateTime(program.OriginalAirdate).ToString(DateFormat) + " " + Time.GetOffset());
+                prevShown.SetAttribute("start", Time.UnixTimeStampToDateTime(program.OriginalAirdate + 86400).ToString(DateFormat) + " " + Time.GetOffset());
                 eleProgram.AppendChild(prevShown);
             }
 
