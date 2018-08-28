@@ -185,10 +185,11 @@ def processChannel(xml, data, deviceAuth):
 	try:
 		while ( counter < 24 ):
 			chanData = GetHdConnectChannelPrograms( deviceAuth, data.get('GuideNumber'), maxTime)
-		for chan in chanData:
-			for program in chan["Guide"]:
-				maxTime = ProcessProgram( xml, program, data.get('GuideName'))
-		counter = counter + 1
+			for chan in chanData:
+				for program in chan["Guide"]:
+					maxTime = ProcessProgram( xml, program, data.get('GuideName'))
+			counter = counter + 1
+
 	except:
 		WriteLog("It appears you do not have the HdHomeRunDvr Service.")
 
@@ -301,7 +302,7 @@ def WriteLog(message):
 
 	with open ('HdHomerun.log','a') as logfile:
 		logfile.write(str(timeString) + " " + str(message) + "\n")
-	#print(str(timeString) + " " + str(message))
+	print(str(timeString) + " " + str(message))
 
 
 def main():
