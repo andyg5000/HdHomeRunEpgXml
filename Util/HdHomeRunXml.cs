@@ -222,7 +222,7 @@ namespace HdHomeRunEpgXml.Util
             try
             {
                 //Each request represents 4 hours, so this will fetch 25 * 4 or 100 hours of programming
-                while (counter < 2)
+                while (counter < 24)
                 {
                     //Request the next programming for the channel
 
