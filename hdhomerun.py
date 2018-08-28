@@ -122,6 +122,7 @@ def ProcessProgram(xml, program, guideName):
 					#create a fake episode number for it
 					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
 					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
+	#Return the endtime so we know where to start from on next loop.
 	return program['EndTime']
 
 	
@@ -156,16 +157,16 @@ def processChannel(xml, data, deviceAuth):
 
 	#The first pull is for 4 hours, each of these are 8 hours
 	#So if we do this 21 times we will have fetched the complete week
-	while ( counter < 21 ):
-		
-		chanData = GetHdConnectChannelPrograms( deviceAuth, data.get('GuideNumber'), maxTime)
-		
-
+	try:
+		while ( counter < 42 ):
+			chanData = GetHdConnectChannelPrograms( deviceAuth, data.get('GuideNumber'), maxTime)
 		for chan in chanData:
 			for program in chan["Guide"]:
 				maxTime = ProcessProgram( xml, program, data.get('GuideName'))
-
 		counter = counter + 1
+	except:
+		WriteLog("It appears you do not have the HdHomeRunDvr Service.")
+
 	
 
 				
@@ -286,7 +287,11 @@ def main():
 
 	xml = ET.Element("tv")
 	
-	devices = GetHdConnectDevices()
+	try:
+		devices = GetHdConnectDevices()
+	except:
+		WriteLog("No HdHomeRun devices detected.")
+		exit()
 
 	processedChannelList = ["empty","empty"]
 
