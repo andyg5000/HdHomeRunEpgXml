@@ -9,7 +9,7 @@ By default, the program will download **Two Weeks** of programming.
   To run the program on windows, either download and compile the program (Requires Visual Studio 2017 or greater) or download the Release.Zip file in the project.
   
 **For Linux/Others**
-  The file HdHomeRun.py is a python 3.7 program which is a translation of the C# program.  This python program require Pip to be installed as well as the urllib3 library.
+  The file HdHomeRun.py is a python 3.7 program which is a translation of the C# program.  This python program requires Pip to be installed as well as the urllib3 library.
  
 **For Support, visit https://forums.plex.tv/t/for-those-who-purchase-the-hdhomerun-primium-live-video-service-this-is-how-you-can-get-your-epg/300886/69
 
