@@ -1,4 +1,4 @@
-#HdHomeRunEpgXml#
+# HdHomeRunEpgXml #
 
 This program downloads the programming for your connected HdHomeRun devices and converts it to a TVXML file which you can then use on Plex or any other Media Center.  To recieve more than 4 hours of programming you must subscribe to SiliconDust's DVR service which provides the extended EPG data that this program uses.
 
