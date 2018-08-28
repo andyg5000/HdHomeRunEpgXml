@@ -4,7 +4,7 @@
 //  
 // THIS SOFTWARE IS PROVIDED BY FairfieldTek LLC ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
 // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
-// PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL WINTERLEAF ENTERTAINMENT LLC BE LIABLE FOR ANY DIRECT, INDIRECT, 
+// PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL FAIRFIELDTEK LLC BE LIABLE FOR ANY DIRECT, INDIRECT, 
 // INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
 // SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
@@ -73,13 +73,8 @@ namespace HdHomeRunEpgXml
                 Environment.Exit(0);
             }
             if (devices == null)
-            {
                 Console.WriteLine("Devices are null!  Can't find recievers.");
-            }
             else
-            {
-
-
                 try
                 {
                     //For Each device.
@@ -109,10 +104,7 @@ namespace HdHomeRunEpgXml
                 {
                     Console.WriteLine("Error processing devices.");
                     Console.WriteLine(e);
-                    
                 }
-
-            }
 
             //Append the shows to the list
             foreach (var element in tvShows)
