@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Xml;
 using HdHomeRunEpgXml.Data;
 using HdHomeRunEpgXml.Util;
@@ -58,7 +59,20 @@ namespace HdHomeRunEpgXml
             List<string> processedChannel = new List<string>();
 
             //Fetch the devices registered.
-            List<HdConnectDevice> devices = JsonCalls.GetHdConnectDevices();
+
+            List<HdConnectDevice> devices = null;
+            try
+            {
+                devices = JsonCalls.GetHdConnectDevices();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("!!!!!It appears you do not have any HdHomeRun devices.!!!!!");
+                Console.WriteLine("Press <enter> to exit");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+
             //For Each device.
             foreach (HdConnectDevice device in devices)
             {

@@ -132,12 +132,44 @@ namespace HdHomeRunEpgXml.Util
             {
                 XmlElement eleCategory = doc.CreateElement(string.Empty, "category", string.Empty);
                 eleCategory.SetAttribute("lang", "en");
-                XmlText eleCategoryText = doc.CreateTextNode(filter);
+                XmlText eleCategoryText = doc.CreateTextNode(filter.ToLower());
                 eleCategory.AppendChild(eleCategoryText);
                 eleProgram.AppendChild(eleCategory);
+                if (filter.Equals("news", StringComparison.InvariantCultureIgnoreCase) || filter.Equals("sports", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    XmlElement eleFE = doc.CreateElement(string.Empty, "episode-num", string.Empty);
+                    eleFE.SetAttribute("xmltv_ns", DateTimeToEpisode());
+                    eleProgram.AppendChild(eleFE);
+
+                    XmlElement eleFE1 = doc.CreateElement(string.Empty, "episode-num", string.Empty);
+                    eleFE1.SetAttribute("onscreen",DatetimeToEpisodeFriendly());
+                    eleProgram.AppendChild(eleFE1);
+
+                    XmlElement eleCategory1 = doc.CreateElement(string.Empty, "category", string.Empty);
+                    eleCategory1.SetAttribute("lang", "en");
+                    XmlText eleCategoryText1 = doc.CreateTextNode("series");
+                    eleCategory1.AppendChild(eleCategoryText1);
+                    eleProgram.AppendChild(eleCategory1);
+                }
             }
             return eleProgram;
         }
+
+        public static string DateTimeToEpisode()
+        {
+            DateTime dt = DateTime.Now;
+            string season = dt.ToString("yyyy");
+            string episode = dt.ToString("MMddhhmmss");
+            return season + " . " + episode + " . 0/1";
+        }
+        public static string DatetimeToEpisodeFriendly()
+        {
+            DateTime dt = DateTime.Now;
+            string season = dt.ToString("yyyy");
+            string episode = dt.ToString("MMddhhmmss");
+            return "S" + season + "E" + episode;
+        }
+
 
         public static List<XmlElement> ProcessChannel(this XmlDocument doc, XmlElement eleTv, HdConnectChannel channel, string deviceAuth)
         {
@@ -187,10 +219,15 @@ namespace HdHomeRunEpgXml.Util
 
             int counter = 0;
 
+            try
+            {
+
+            
             //Each request represents 4 hours, so this will fetch 25 * 4 or 100 hours of programming
-            while (counter < 24)
+            while (counter < 2)
             {
                 //Request the next programming for the channel
+
                 List<HdConnectChannel> moreProgramming = JsonCalls.GetHdConnectChannelPrograms(deviceAuth, channel.GuideNumber, maxTimeStamp);
                 //Add the shows
                 foreach (HdConnectProgram program in moreProgramming[0].Guide)
@@ -202,6 +239,12 @@ namespace HdHomeRunEpgXml.Util
                 counter++;
                 //Move the timestamp forward one second to start next hour
                 maxTimeStamp++;
+            }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("!!!!!!!!!!It appears you do not have the HdHomeRun Dvr service.!!!!!!!!!!");
+                
             }
 
             return tvShows;
