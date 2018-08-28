@@ -35,6 +35,19 @@ namespace HdHomeRunEpgXml
     {
         private static void Main(string[] args)
         {
+            if (args.Length > 0)
+            {
+                if (args[0] == "?")
+                {
+                    Console.WriteLine("Argument expected: XML File Path.");
+                    Console.WriteLine("Example: ");
+                    Console.WriteLine("         HdHomeRunEpgXml " + '"' + "hdEpg.xml" + '"');
+                    Console.WriteLine("         HdHomeRunEpgXml " + '"' + "C:\\hdEpg.xml" + '"');
+                    Console.WriteLine("");
+                    Console.WriteLine("You can also specify the device.");
+                    Console.WriteLine("         HdHomeRunEpgXml " + '"' + "C:\\hdEpg.xml" +'"' + " <DeviceID>") ;
+                }
+            }
             if (args.Length == 0)
             {
                 Console.WriteLine("Argument expected: XML File Path.");
@@ -46,6 +59,13 @@ namespace HdHomeRunEpgXml
                 Console.ReadLine();
                 return;
             }
+
+            string selectedDevice = null;
+            if (args.Length == 2)
+            {
+                selectedDevice = args[1];
+            }
+
             IpAddressFinder.PrintLocalIPAddress();
 
             var tvShows = new List<XmlElement>();
@@ -80,6 +100,9 @@ namespace HdHomeRunEpgXml
                     //For Each device.
                     foreach (var device in devices)
                     {
+                        if (selectedDevice != null)
+                            if (selectedDevice != device.DeviceID)
+                                continue;
                         Console.WriteLine("Processing Device: " + device.DeviceID);
                         //Get the Auth info
 

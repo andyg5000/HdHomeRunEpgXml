@@ -143,6 +143,34 @@ namespace HdHomeRunEpgXml.Util
             if (program.Filter == null)
                 return eleProgram;
 
+            bool foundMovieCategory = false;
+
+            foreach (string filter in program.Filter)
+            {
+                if (filter.Equals("movies"))
+                    foundMovieCategory = true;
+            }
+
+            //If it is not a Movie... then give it a series so that it doesn't show up in the movie listing...
+
+            if (!foundMovieCategory)
+            {
+                var eleFE = doc.CreateElement(string.Empty, "episode-num", string.Empty);
+                eleFE.SetAttribute("xmltv_ns", DateTimeToEpisode());
+                eleProgram.AppendChild(eleFE);
+
+                var eleFE1 = doc.CreateElement(string.Empty, "episode-num", string.Empty);
+                eleFE1.SetAttribute("onscreen", DatetimeToEpisodeFriendly());
+                eleProgram.AppendChild(eleFE1);
+
+                var eleCategory1 = doc.CreateElement(string.Empty, "category", string.Empty);
+                eleCategory1.SetAttribute("lang", "en");
+                var eleCategoryText1 = doc.CreateTextNode("series");
+                eleCategory1.AppendChild(eleCategoryText1);
+                eleProgram.AppendChild(eleCategory1);
+
+            }
+
             //For each entry in filter, add it as a category
             foreach (string filter in program.Filter)
             {
@@ -151,22 +179,25 @@ namespace HdHomeRunEpgXml.Util
                 var eleCategoryText = doc.CreateTextNode(filter.ToLower());
                 eleCategory.AppendChild(eleCategoryText);
                 eleProgram.AppendChild(eleCategory);
-                if (filter.Equals("news", StringComparison.InvariantCultureIgnoreCase) || filter.Equals("sports", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var eleFE = doc.CreateElement(string.Empty, "episode-num", string.Empty);
-                    eleFE.SetAttribute("xmltv_ns", DateTimeToEpisode());
-                    eleProgram.AppendChild(eleFE);
+                //if (!FoundMovieCategory)
+                //    if (
+                //        filter.Equals("news", StringComparison.InvariantCultureIgnoreCase) ||
+                //        filter.Equals("sports", StringComparison.CurrentCultureIgnoreCase))
+                //    {
+                //        var eleFE = doc.CreateElement(string.Empty, "episode-num", string.Empty);
+                //        eleFE.SetAttribute("xmltv_ns", DateTimeToEpisode());
+                //        eleProgram.AppendChild(eleFE);
 
-                    var eleFE1 = doc.CreateElement(string.Empty, "episode-num", string.Empty);
-                    eleFE1.SetAttribute("onscreen", DatetimeToEpisodeFriendly());
-                    eleProgram.AppendChild(eleFE1);
+                //        var eleFE1 = doc.CreateElement(string.Empty, "episode-num", string.Empty);
+                //        eleFE1.SetAttribute("onscreen", DatetimeToEpisodeFriendly());
+                //        eleProgram.AppendChild(eleFE1);
 
-                    var eleCategory1 = doc.CreateElement(string.Empty, "category", string.Empty);
-                    eleCategory1.SetAttribute("lang", "en");
-                    var eleCategoryText1 = doc.CreateTextNode("series");
-                    eleCategory1.AppendChild(eleCategoryText1);
-                    eleProgram.AppendChild(eleCategory1);
-                }
+                //        var eleCategory1 = doc.CreateElement(string.Empty, "category", string.Empty);
+                //        eleCategory1.SetAttribute("lang", "en");
+                //        var eleCategoryText1 = doc.CreateTextNode("series");
+                //        eleCategory1.AppendChild(eleCategoryText1);
+                //        eleProgram.AppendChild(eleCategory1);
+                //    }
             }
             return eleProgram;
         }
