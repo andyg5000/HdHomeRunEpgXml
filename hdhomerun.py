@@ -160,6 +160,7 @@ def ProcessProgram(xml, program, guideName):
 					#create a fake episode number for it
 					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
 					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
+
 	#Return the endtime so we know where to start from on next loop.
 	return program['EndTime']
 
@@ -278,7 +279,7 @@ def GetHdConnectChannelPrograms(device_auth, guideNumber, timeStamp):
 	http = urllib3.PoolManager()
 	response = http.request('GET',"http://my.hdhomerun.com/api/guide.php?DeviceAuth=" + device_auth +"&Channel=" + guideNumber +"&Start=" + str(timeStamp) + "&SynopsisLength=160")
 	data = response.data
-	WriteLog(data)
+	#WriteLog(data)
 	return json.loads(data)	
 
 def InList(l , value):
