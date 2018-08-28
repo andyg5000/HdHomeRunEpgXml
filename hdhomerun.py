@@ -154,7 +154,7 @@ def ProcessProgram(xml, program, guideName):
 			if (filterstringLower == "news" or filterstringLower == "sports"):
 				#And the show didn't have it's own episode number...
 				if ( addedEpisode == False ):
-					WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
+					#WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
 					#add a category for series
 					ET.SubElement(xmlProgram, "category",lang="en").text = "series"
 					#create a fake episode number for it
