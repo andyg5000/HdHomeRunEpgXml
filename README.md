@@ -15,7 +15,12 @@ By default, the program will download **Two Weeks** of programming.
 
 **Note:**  It is recommended that you schedule the download of the EPG only ONCE per day, plex will read the TVXML file during maintenance in the middle of the night.  On Linux, use crontab -e to schedule, and for windows use the System Task Scheduler.
 
+
+
+
+
 **Fairfield Tek L.L.C.**
+
 **Copyright (c) 2016, Fairfield Tek L.L.C.**
   
   
