@@ -11,5 +11,5 @@ By default, the program will download **Two Weeks** of programming.
 **For Linux/Others**
   The file HdHomeRun.py is a python 3.7 program which does is a translation of the C# program.  This python program require Pip to be installed as well as the urllib3 library.
  
-
+**For Support, visit [url]https://forums.plex.tv/t/for-those-who-purchase-the-hdhomerun-primium-live-video-service-this-is-how-you-can-get-your-epg/300886/69[url]
 
