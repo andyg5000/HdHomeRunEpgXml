@@ -45,7 +45,7 @@ namespace HdHomeRunEpgXml
                     Console.WriteLine("         HdHomeRunEpgXml " + '"' + "C:\\hdEpg.xml" + '"');
                     Console.WriteLine("");
                     Console.WriteLine("You can also specify the device.");
-                    Console.WriteLine("         HdHomeRunEpgXml " + '"' + "C:\\hdEpg.xml" +'"' + " <DeviceID>") ;
+                    Console.WriteLine("         HdHomeRunEpgXml " + '"' + "C:\\hdEpg.xml" + '"' + " <DeviceID>");
                 }
             }
             if (args.Length == 0)
@@ -101,7 +101,7 @@ namespace HdHomeRunEpgXml
                     foreach (var device in devices)
                     {
                         if (selectedDevice != null)
-                            if (selectedDevice != device.DeviceID)
+                            if (!selectedDevice.Trim().Equals(device.DeviceID.Trim(), StringComparison.InvariantCultureIgnoreCase))
                                 continue;
                         Console.WriteLine("Processing Device: " + device.DeviceID);
                         //Get the Auth info
