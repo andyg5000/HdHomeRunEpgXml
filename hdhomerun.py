@@ -140,7 +140,7 @@ def ProcessProgram(xml, program, guideName):
 			filterstringLower = str(filter).lower()
 			if (filterstringLower == "movies"):
 				FoundMovieCategory = True
-				break:
+				break
 		
 		#If we didn't find the movie category, and we haven't added an episode flag, lets do it!
 		if FoundMovieCategory == False and addedEpisode == False:
