@@ -71,28 +71,46 @@ namespace HdHomeRunEpgXml
                 Console.ReadLine();
                 Environment.Exit(0);
             }
-
-            //For Each device.
-            foreach (var device in devices)
+            if (devices == null)
             {
-                Console.WriteLine("Processing Device: " + device.DeviceID);
-                //Get the Auth info
+                Console.WriteLine("Devices are null!  Can't find recievers.");
+            }
+            else
+            {
 
-                var discover = device.GetHdConnectDiscover();
-                //Get the channels
 
-                var channels = discover.GetHdConnectChannels();
-                //For each channel
-                foreach (var channel in channels)
+                try
                 {
-                    //If we already processed this channel, then skip
-                    if (processedChannel.Contains(channel.GuideNumber))
-                        continue;
-                    //Process the channel
-                    processedChannel.Add(channel.GuideNumber);
-                    //Add the tv shows
-                    tvShows.AddRange(doc.ProcessChannel(eleTv, channel, discover.DeviceAuth));
+                    //For Each device.
+                    foreach (var device in devices)
+                    {
+                        Console.WriteLine("Processing Device: " + device.DeviceID);
+                        //Get the Auth info
+
+                        var discover = device.GetHdConnectDiscover();
+                        //Get the channels
+
+                        var channels = discover.GetHdConnectChannels();
+                        //For each channel
+                        foreach (var channel in channels)
+                        {
+                            //If we already processed this channel, then skip
+                            if (processedChannel.Contains(channel.GuideNumber))
+                                continue;
+                            //Process the channel
+                            processedChannel.Add(channel.GuideNumber);
+                            //Add the tv shows
+                            tvShows.AddRange(doc.ProcessChannel(eleTv, channel, discover.DeviceAuth));
+                        }
+                    }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error processing devices.");
+                    Console.WriteLine(e);
+                    
+                }
+
             }
 
             //Append the shows to the list
