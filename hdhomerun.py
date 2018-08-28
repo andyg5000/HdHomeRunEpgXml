@@ -133,13 +133,17 @@ def ProcessProgram(xml, program, guideName):
 
 
 	if 'Filter' in program:
+
+		#Search the filters and see if it is a movie
 		FoundMovieCategory = False
 		for filter in program['Filter']:
 			filterstringLower = str(filter).lower()
 			if (filterstringLower == "movies"):
 				FoundMovieCategory = True
+				break:
 		
-		if FoundMovieCategory == False:
+		#If we didn't find the movie category, and we haven't added an episode flag, lets do it!
+		if FoundMovieCategory == False and addedEpisode == False:
 			ET.SubElement(xmlProgram, "category",lang="en").text = "series"
 			#create a fake episode number for it
 			ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
@@ -152,15 +156,15 @@ def ProcessProgram(xml, program, guideName):
 			#add the filter as a category
 			ET.SubElement(xmlProgram, "category",lang="en").text = filterstringLower
 			#If the filter is news or sports...
-			if (filterstringLower == "news" or filterstringLower == "sports"):
-				#And the show didn't have it's own episode number...
-				if ( addedEpisode == False ):
-					#WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
-					#add a category for series
-					ET.SubElement(xmlProgram, "category",lang="en").text = "series"
-					#create a fake episode number for it
-					ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
-					ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
+			# if (filterstringLower == "news" or filterstringLower == "sports"):
+			# 	#And the show didn't have it's own episode number...
+			# 	if ( addedEpisode == False ):
+			# 		#WriteLog("-------> Creating Fake Season and Episode for News or Sports show.")
+			# 		#add a category for series
+			# 		ET.SubElement(xmlProgram, "category",lang="en").text = "series"
+			# 		#create a fake episode number for it
+			# 		ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
+			# 		ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
 
 	#Return the endtime so we know where to start from on next loop.
 	return program['EndTime']
