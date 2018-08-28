@@ -9,7 +9,7 @@ By default, the program will download **Two Weeks** of programming.
   To run the program on windows, either download and compile the program (Requires Visual Studio 2017 or greater) or download the Release.Zip file in the project.
   
 **For Linux/Others**
-  The file HdHomeRun.py is a python 3.7 program which does is a translation of the C# program.  This python program require Pip to be installed as well as the urllib3 library.
+  The file HdHomeRun.py is a python 3.7 program which is a translation of the C# program.  This python program requires Pip to be installed as well as the urllib3 library.
  
 **For Support, visit https://forums.plex.tv/t/for-those-who-purchase-the-hdhomerun-primium-live-video-service-this-is-how-you-can-get-your-epg/300886/69
 
@@ -26,7 +26,7 @@ By default, the program will download **Two Weeks** of programming.
   
  THIS SOFTWARE IS PROVIDED BY FAIRFIELDTEK LLC ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL WINTERLEAF ENTERTAINMENT LLC BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL FAIRFIELDTEK LLC BE LIABLE FOR ANY DIRECT, INDIRECT, 
  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
