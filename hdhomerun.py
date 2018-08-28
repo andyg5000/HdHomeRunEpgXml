@@ -132,6 +132,19 @@ def ProcessProgram(xml, program, guideName):
 
 
 	if 'Filter' in program:
+		FoundMovieCategory = False
+		for filter in program['Filter']:
+			filterstringLower = str(filter).lower()
+			if (filterstringLower == "movies"):
+				FoundMovieCategory = True
+		
+		if FoundMovieCategory == False:
+			ET.SubElement(xmlProgram, "category",lang="en").text = "series"
+			#create a fake episode number for it
+			ET.SubElement(xmlProgram, "episode-num", system="xmltv_ns").text = DateTimeToEpisode()
+			ET.SubElement(xmlProgram, "episode-num", system="onscreen").text = DateTimeToEpisodeFriendly()
+			addedEpisode = True
+
 		for filter in program['Filter']:
 			#Lowercase the filter... apearenttly Plex is case sensitive
 			filterstringLower = str(filter).lower()
