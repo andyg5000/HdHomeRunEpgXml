@@ -122,7 +122,8 @@ def ProcessProgram(xml, program, guideName):
 
 	if 'OriginalAirdate' in program:
 		if program['OriginalAirdate'] > 0:
-			ET.SubElement(xmlProgram, "previously-shown", start = datetime.fromtimestamp(program['OriginalAirdate']).strftime('%Y%m%d%H%M%S') + " " + timezone_offset)
+			#The 86400 is because the HdHomeRun feed is off by a day, this fixes that.
+			ET.SubElement(xmlProgram, "previously-shown", start = datetime.fromtimestamp(program['OriginalAirdate'] + 86400 ).strftime('%Y%m%d%H%M%S') + " " + timezone_offset)
 				
 	if 'ImageURL' in program:
 		ET.SubElement(xmlProgram, "icon", src=program['ImageURL'])

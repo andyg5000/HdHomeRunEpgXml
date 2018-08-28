@@ -46,6 +46,8 @@ namespace HdHomeRunEpgXml.Util
 
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
+            //Fix for bad data comming from HdHomeRun
+            unixTimeStamp = unixTimeStamp + 86400;
             // Unix timestamp is seconds past epoch
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToUniversalTime();
