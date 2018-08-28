@@ -117,10 +117,13 @@ namespace HdHomeRunEpgXml.Util
                 eleProgram.AppendChild(eleSeries);
             }
 
-            //Add when it was previously shown
-            var prevShown = doc.CreateElement(string.Empty, "previously-shown", string.Empty);
-            prevShown.SetAttribute("start", Time.UnixTimeStampToDateTime(program.OriginalAirdate).ToString(DateFormat) + " " + Time.GetOffset());
-            eleProgram.AppendChild(prevShown);
+            if (program.OriginalAirdate > 0)
+            {
+                //Add when it was previously shown
+                var prevShown = doc.CreateElement(string.Empty, "previously-shown", string.Empty);
+                prevShown.SetAttribute("start", Time.UnixTimeStampToDateTime(program.OriginalAirdate).ToString(DateFormat) + " " + Time.GetOffset());
+                eleProgram.AppendChild(prevShown);
+            }
 
             //What image to show for the thumbnail
             var elePosterUrl = doc.CreateElement(string.Empty, "icon", string.Empty);

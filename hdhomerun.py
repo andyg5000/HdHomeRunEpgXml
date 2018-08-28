@@ -121,7 +121,8 @@ def ProcessProgram(xml, program, guideName):
 		addedEpisode = True
 
 	if 'OriginalAirdate' in program:
-		ET.SubElement(xmlProgram, "previously-shown", start = datetime.fromtimestamp(program['OriginalAirdate']).strftime('%Y%m%d%H%M%S') + " " + timezone_offset)
+		if program['OriginalAirdate'] > 0:
+			ET.SubElement(xmlProgram, "previously-shown", start = datetime.fromtimestamp(program['OriginalAirdate']).strftime('%Y%m%d%H%M%S') + " " + timezone_offset)
 				
 	if 'ImageURL' in program:
 		ET.SubElement(xmlProgram, "icon", src=program['ImageURL'])
