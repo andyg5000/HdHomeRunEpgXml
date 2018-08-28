@@ -212,7 +212,7 @@ def GetHdConnectDevices():
 	http = urllib3.PoolManager()
 	discover_url_response = http.request('GET',"http://my.hdhomerun.com/discover")
 	data = discover_url_response.data
-	WriteLog(data)
+	#WriteLog(data)
 	obj = json.loads(data)
 	return obj
 
@@ -221,7 +221,7 @@ def GetHdConnectDiscover(discover_url):
 	http = urllib3.PoolManager()
 	device_auth_response = http.request('GET',discover_url)
 	data = device_auth_response.data
-	WriteLog(data)
+	#WriteLog(data)
 	device_auth = json.loads(data)['DeviceAuth']
 	return device_auth
 
@@ -257,7 +257,7 @@ def GetHdConnectChannels(device_auth):
 	http = urllib3.PoolManager()
 	response = http.request('GET',"http://my.hdhomerun.com/api/guide.php?DeviceAuth=%s" % device_auth)
 	data = response.data
-	WriteLog(data)
+	#WriteLog(data)
 	return json.loads(data)
 
 def GetHdConnectChannelPrograms(device_auth, guideNumber, timeStamp):
