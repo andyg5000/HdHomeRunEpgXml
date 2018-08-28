@@ -55,11 +55,24 @@ namespace HdHomeRunEpgXml.Util
 
         public static List<HdConnectDevice> GetHdConnectDevices()
         {
-            var uri = new Uri("http://my.hdhomerun.com/discover");
-            var hc = new HttpClient();
-            var result = hc.GetByteArrayAsync(uri).Result;
-            string json = Encoding.UTF8.GetString(result);
-            return JsonConvert.DeserializeObject<List<HdConnectDevice>>(json);
+            string json = "";
+            try
+            {
+                var uri = new Uri("http://my.hdhomerun.com/discover");
+                var hc = new HttpClient();
+                byte[] result = hc.GetByteArrayAsync(uri).Result;
+                
+                
+                json = Encoding.UTF8.GetString(result);
+                return JsonConvert.DeserializeObject<List<HdConnectDevice>>(json);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Response from Webserver: ");
+                Console.WriteLine(json);
+                throw;
+            }
+            
         }
 
         public static HdConnectDiscover GetHdConnectDiscover(this HdConnectDevice device)
