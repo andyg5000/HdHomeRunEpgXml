@@ -2,7 +2,7 @@
 //  Copyright (c) 2016, Fairfield Tek L.L.C.
 //  
 //  
-// THIS SOFTWARE IS PROVIDED BY WINTERLEAF ENTERTAINMENT LLC ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+// THIS SOFTWARE IS PROVIDED BY FairfieldTek LLC ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
 // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
 // PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL WINTERLEAF ENTERTAINMENT LLC BE LIABLE FOR ANY DIRECT, INDIRECT, 
 // INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.Mime;
 using System.Xml;
 using HdHomeRunEpgXml.Data;
 using HdHomeRunEpgXml.Util;
@@ -48,15 +47,15 @@ namespace HdHomeRunEpgXml
                 return;
             }
 
-            List<XmlElement> tvShows = new List<XmlElement>();
+            var tvShows = new List<XmlElement>();
 
-            XmlDocument doc = new XmlDocument();
-            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "ISO-8859-1", null);
-            XmlElement root = doc.DocumentElement;
+            var doc = new XmlDocument();
+            var xmlDeclaration = doc.CreateXmlDeclaration("1.0", "ISO-8859-1", null);
+            var root = doc.DocumentElement;
             doc.InsertBefore(xmlDeclaration, root);
-            XmlElement eleTv = doc.CreateElement(string.Empty, "tv", string.Empty);
+            var eleTv = doc.CreateElement(string.Empty, "tv", string.Empty);
             doc.AppendChild(eleTv);
-            List<string> processedChannel = new List<string>();
+            var processedChannel = new List<string>();
 
             //Fetch the devices registered.
 
@@ -74,17 +73,17 @@ namespace HdHomeRunEpgXml
             }
 
             //For Each device.
-            foreach (HdConnectDevice device in devices)
+            foreach (var device in devices)
             {
                 Console.WriteLine("Processing Device: " + device.DeviceID);
                 //Get the Auth info
 
-                HdConnectDiscover discover = device.GetHdConnectDiscover();
+                var discover = device.GetHdConnectDiscover();
                 //Get the channels
 
-                List<HdConnectChannel> channels = discover.GetHdConnectChannels();
+                var channels = discover.GetHdConnectChannels();
                 //For each channel
-                foreach (HdConnectChannel channel in channels)
+                foreach (var channel in channels)
                 {
                     //If we already processed this channel, then skip
                     if (processedChannel.Contains(channel.GuideNumber))
@@ -97,7 +96,7 @@ namespace HdHomeRunEpgXml
             }
 
             //Append the shows to the list
-            foreach (XmlElement element in tvShows)
+            foreach (var element in tvShows)
                 eleTv.AppendChild(element);
 
             try

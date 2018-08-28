@@ -2,7 +2,7 @@
 //  Copyright (c) 2016, Fairfield Tek L.L.C.
 //  
 //  
-// THIS SOFTWARE IS PROVIDED BY WINTERLEAF ENTERTAINMENT LLC ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+// THIS SOFTWARE IS PROVIDED BY FairfieldTek LLC ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
 // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
 // PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL WINTERLEAF ENTERTAINMENT LLC BE LIABLE FOR ANY DIRECT, INDIRECT, 
 // INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
@@ -31,13 +31,13 @@ namespace HdHomeRunEpgXml.Util
     {
         public static double DateTimeToUnixTimeStamp(DateTime time)
         {
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             return (time.ToUniversalTime() - dtDateTime).TotalSeconds;
         }
 
         public static string GetOffset()
         {
-            TimeSpan offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
+            var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
             string time = (Math.Abs(offset.TotalHours) + "00").PadLeft(4, '0');
             if (offset.TotalHours < 0)
                 time = "-" + time;
@@ -47,7 +47,7 @@ namespace HdHomeRunEpgXml.Util
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToUniversalTime();
             return dtDateTime;
         }
