@@ -46,6 +46,7 @@ namespace HdHomeRunEpgXml
                 Console.ReadLine();
                 return;
             }
+            IpAddressFinder.PrintLocalIPAddress();
 
             var tvShows = new List<XmlElement>();
 

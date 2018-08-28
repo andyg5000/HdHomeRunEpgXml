@@ -50,6 +50,7 @@
     <Compile Include="Data\HdConnectProgram.cs" />
     <Compile Include="Data\HdConnectChannel.cs" />
     <Compile Include="Util\HdHomeRunXml.cs" />
+    <Compile Include="Util\IpAddressFinder.cs" />
     <Compile Include="Util\Time.cs" />
     <Compile Include="Util\JsonCalls.cs" />
     <Compile Include="Program.cs" />
