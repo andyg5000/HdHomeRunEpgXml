@@ -89,6 +89,7 @@ namespace HdHomeRunEpgXml.Util
              * but HdHomeRun doesn't provide it, so we need to derive if from there
              * Friendly version.
             */
+            bool addedEpisode = false;
 
             if (!string.IsNullOrEmpty(program.EpisodeNumber))
             {
@@ -115,6 +116,8 @@ namespace HdHomeRunEpgXml.Util
                 var eleSeriesText = doc.CreateTextNode("series");
                 eleSeries.AppendChild(eleSeriesText);
                 eleProgram.AppendChild(eleSeries);
+
+                addedEpisode = true;
             }
 
             if (program.OriginalAirdate > 0)
@@ -156,7 +159,7 @@ namespace HdHomeRunEpgXml.Util
 
             //If it is not a Movie... then give it a series so that it doesn't show up in the movie listing...
 
-            if (!foundMovieCategory)
+            if (!foundMovieCategory && !addedEpisode)
             {
                 var eleFE = doc.CreateElement(string.Empty, "episode-num", string.Empty);
                 eleFE.SetAttribute("xmltv_ns", DateTimeToEpisode());
@@ -182,25 +185,6 @@ namespace HdHomeRunEpgXml.Util
                 var eleCategoryText = doc.CreateTextNode(filter.ToLower());
                 eleCategory.AppendChild(eleCategoryText);
                 eleProgram.AppendChild(eleCategory);
-                //if (!FoundMovieCategory)
-                //    if (
-                //        filter.Equals("news", StringComparison.InvariantCultureIgnoreCase) ||
-                //        filter.Equals("sports", StringComparison.CurrentCultureIgnoreCase))
-                //    {
-                //        var eleFE = doc.CreateElement(string.Empty, "episode-num", string.Empty);
-                //        eleFE.SetAttribute("xmltv_ns", DateTimeToEpisode());
-                //        eleProgram.AppendChild(eleFE);
-
-                //        var eleFE1 = doc.CreateElement(string.Empty, "episode-num", string.Empty);
-                //        eleFE1.SetAttribute("onscreen", DatetimeToEpisodeFriendly());
-                //        eleProgram.AppendChild(eleFE1);
-
-                //        var eleCategory1 = doc.CreateElement(string.Empty, "category", string.Empty);
-                //        eleCategory1.SetAttribute("lang", "en");
-                //        var eleCategoryText1 = doc.CreateTextNode("series");
-                //        eleCategory1.AppendChild(eleCategoryText1);
-                //        eleProgram.AppendChild(eleCategory1);
-                //    }
             }
             return eleProgram;
         }
