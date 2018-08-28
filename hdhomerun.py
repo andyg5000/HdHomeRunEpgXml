@@ -314,9 +314,10 @@ def WriteLog(message):
 	time_now = datetime.fromtimestamp(timestamp)
 	timeString = time_now.strftime('%Y%m%d%H%M%S')
 
-	with open ('HdHomerun.log','a') as logfile:
-		logfile.write(str(timeString) + " " + str(message) + "\n")
-	print(str(timeString) + " " + str(message))
+	with open ('HdHomerun.log','ab') as logfile:
+		output = str(timeString) + " " + str(message) + "\n"
+		logfile.write(output.encode('utf-8') )
+	print(output.encode('utf-8'))
 
 
 def main():
