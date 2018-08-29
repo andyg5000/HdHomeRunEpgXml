@@ -15,6 +15,19 @@ By default, the program will download **Two Weeks** of programming.
 
 **Note:**  It is recommended that you schedule the download of the EPG only ONCE per day, plex will read the TVXML file during maintenance in the middle of the night.  On Linux, use crontab -e to schedule, and for windows use the System Task Scheduler.
 
+## Running with Docker
+
+This repository includes a Dockerfile that will build an Alpine Linux Docker image that includes all the dependencies to run the `hdhomerun.py` script to generate the hdhomerun.xml file.
+
+Steps to use:
+
+* Make sure you have docker installed and available in your `$PATH`.
+* Download the `Dockerfile` file in the ./Docker to an empty directory.
+* Change into the new directory with the Dockerfile in it.
+* Run `docker build -t hdhomerunepgxml .` (don't miss the ".")
+* Run `docker run --rm hdhomerunepgxml > /[directory]/hdhomerun.xml` where [directory] is the place you want the file stored.
+You can schedule the docker run command above as a cronjob.
+
 
 
 
